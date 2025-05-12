@@ -1,4 +1,4 @@
-package MonoAlpha;
+package RSA;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -13,14 +13,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-@SuppressWarnings("DuplicatedCode")
-public class MonoGUI extends Application {
-    MonoCipher cipher = new MonoCipher();
+public class RSA_GUI extends Application {
+    RSA cipher = new RSA();
 
     @Override
     public void start(Stage primaryStage) {
         // Title text
-        Text title = new Text("Mono-Alphabetic Cipher");
+        Text title = new Text("RSA");
         title.setFont(new Font("Arial", 24));
 
         // Create input fields
@@ -48,7 +47,7 @@ public class MonoGUI extends Application {
                 String targetText = text.getText();
                 result.setText(cipher.encrypt(targetText));
             } catch (NumberFormatException e) {
-                result.setText("Invalid Input.");
+                result.setText("Invalid input.");
             }
         });
 
@@ -57,7 +56,7 @@ public class MonoGUI extends Application {
                 String targetText = text.getText();
                 result.setText(cipher.decrypt(targetText));
             } catch (NumberFormatException e) {
-                result.setText("Invalid Input");
+                result.setText("Invalid input.");
             }
         });
 
@@ -74,7 +73,7 @@ public class MonoGUI extends Application {
 
         // Set up the scene
         Scene scene = new Scene(root, 450, 350);
-        primaryStage.setTitle("MonoAlphabetic Cipher");
+        primaryStage.setTitle("RSA");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

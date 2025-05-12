@@ -1,4 +1,4 @@
-package MonoAlpha;
+package RSA;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -13,20 +13,26 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.math.BigInteger;
+
 @SuppressWarnings("DuplicatedCode")
-public class MonoGUI extends Application {
-    MonoCipher cipher = new MonoCipher();
+public class RabinGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         // Title text
-        Text title = new Text("Mono-Alphabetic Cipher");
+        Text title = new Text("Rabin-Millar Primality Testing");
         title.setFont(new Font("Arial", 24));
 
         // Create input fields
-        TextField text = new TextField();
-        text.setPromptText("Enter Text");
-        text.setMinHeight(30);
+        TextField text1 = new TextField();
+        text1.setPromptText("Enter a Number to test");
+        text1.setMinHeight(30);
+
+        // Create input fields
+        TextField text2 = new TextField();
+        text2.setPromptText("Enter Trials");
+        text2.setMinHeight(30);
 
         // Create result area
         TextArea result = new TextArea();
@@ -35,34 +41,33 @@ public class MonoGUI extends Application {
         result.setMinHeight(100);
 
         // Create buttons
-        Button encryptButton = new Button("Encrypt");
-        Button decryptButton = new Button("Decrypt");
+        Button testButton = new Button("Test");
 
         // Style buttons
-        encryptButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
-        decryptButton.setStyle("-fx-background-color: #ff0000; -fx-text-fill: white;");
+        testButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
 
         // Button actions
-        encryptButton.setOnAction(_ -> {
+        testButton.setOnAction(_ -> {
             try {
-                String targetText = text.getText();
-                result.setText(cipher.encrypt(targetText));
-            } catch (NumberFormatException e) {
-                result.setText("Invalid Input.");
-            }
-        });
+                int trails = Integer.parseInt(text2.getText());
+                BigInteger num = new BigInteger(text1.getText());
 
-        decryptButton.setOnAction(_ -> {
-            try {
-                String targetText = text.getText();
-                result.setText(cipher.decrypt(targetText));
+                if (num.compareTo(BigInteger.valueOf(trails)) <= 0) {
+                    result.setText("Trails must be less than the tested number");
+                } else if (trails <= 0) {
+                    result.setText("Trails must be greater than 0");
+                } else {
+                    result.setText(RabinMillar.probablyPrime(num, trails) ? "Inconclusive" :
+                            "Not Prime");
+                }
             } catch (NumberFormatException e) {
-                result.setText("Invalid Input");
+                //noinspection CallToPrintStackTrace
+                e.printStackTrace();
             }
         });
 
         // Layout for buttons
-        HBox buttonBox = new HBox(10, encryptButton, decryptButton);
+        HBox buttonBox = new HBox(10, testButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10, 0, 10, 0));
 
@@ -70,11 +75,11 @@ public class MonoGUI extends Application {
         VBox root = new VBox(15);
         root.setPadding(new Insets(20));
         root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(title, text, buttonBox, result);
+        root.getChildren().addAll(title, text1, text2, buttonBox, result);
 
         // Set up the scene
         Scene scene = new Scene(root, 450, 350);
-        primaryStage.setTitle("MonoAlphabetic Cipher");
+        primaryStage.setTitle("Primality Testing");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

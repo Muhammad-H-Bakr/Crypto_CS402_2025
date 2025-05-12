@@ -4,7 +4,6 @@ import Vigenere.VigCipher;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class OneCipher {
     VigCipher cipher = new VigCipher();
@@ -15,7 +14,6 @@ public class OneCipher {
 
     public List<String> encrypt(String plainText) {
         int len = plainText.length();
-        Random rnd = new Random();
         int randomizer = 5; // seed
         int a = 10,
                 b = 15;

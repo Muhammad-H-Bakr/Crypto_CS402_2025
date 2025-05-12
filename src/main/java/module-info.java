@@ -27,4 +27,6 @@ module com.example.crypto {
     exports DES;
     opens AES to javafx.fxml;
     exports AES;
+    opens RSA to javafx.fxml;
+    exports RSA;
 }
